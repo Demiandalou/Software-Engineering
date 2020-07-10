@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+int DailyLimit=300;
+//double HourlyLimit=1.0;
+int HourlyLimit=100;
+
+int baseline=10;
+int bolus=20;
+bool baseline_changed=0;
+bool bolus_changed=0;
+bool bolus_injected=0;
+bool request_bolus=0;
+int new_baseline;
+int new_bolus;
+clock global_t;
+clock tmpt;
+int hour_cnt;
+bool stop=0;
+bool validity=0;
+int username=562;
+int password=42;
+
+//double hourly_injection=0.0;
+int hourly_injection=0;
+int daily_injection=0;
+
+bool validate_user(int username,int password){
+    if(username==562 and password==42){
+        return 1;
+    }
+    return 0;
+}
+void clear_clock(){
+    global_t=0;
+    tmpt=0;
+    //hourly_injection=0;
+    //HourlyLimit=100;
+}
+
+void clear_injection(){
+    hourly_injection=0;
+    daily_injection=0;
+}
+
+void change_baseline(int new_val){
+    baseline=new_val;
+    baseline_changed=1;
+}
+void change_bolus(int new_val){
+    bolus=new_val;
+    bolus_changed=1;
+}
+
+void injecting(){
+    hourly_injection=hourly_injection+baseline;
+    daily_injection=daily_injection+baseline;
+}
+
+void upon_request_bolus(){
+    bolus_injected=1;
+    request_bolus=1;
+}
+
+
+//int update0(int direct,int k){
+//if (direct==1){
+//empt1=butt1[0];
+//empt2=butt1[2];
+//
+//}
+//if (direct==2){
+//empt1=butt1[1];
+//empt2=butt1[3];
+//}
+//if (direct==3){
+//empt1=butt1[2];
+//empt2=butt1[3];
+//}
+//if (direct==4){
+//empt1=butt1[0];
+//empt2=butt1[1];
+//}
+//butt1[0]=butt1[0]+k;
+//butt1[1]=butt1[1]+k;
+//butt1[2]=butt1[2]+k;
+//butt1[3]=butt1[3]+k;
+//
+//return 0;
+//}</declaration>
+	<template>
+		<name>injectionSys</name>
+		<parameter>broadcast chan &amp;ChangeBaseline, broadcast chan &amp;ChangeBolus, broadcast chan &amp;Start,broadcast chan &amp;Validate,broadcast chan &amp;ShutDown,broadcast chan &amp;ShotBolus</parameter>
+		<declaration>clock t;</declaration>
+		<location id="id0" x="-297" y="-25">
+			<name x="-374" y="-25">System</name>
+		</location>
+		<location id="id1" x="76" y="-25">
+			<name x="34" y="-17">running</name>
+			<label kind="invariant" x="-76" y="34">hourly_injection&lt;=HourlyLimit &amp;&amp;  \
+daily_injection&lt;=DailyLimit &amp;&amp; \
+hour_cnt&lt;=24</label>
+			<committed/>
+		</location>
+		<location id="id2" x="-314" y="-93">
+			<committed/>
+		</location>
+		<location id="id3" x="255" y="-340">
+			<name x="245" y="-374">HourlyIdeal</name>
+			<label kind="invariant" x="280" y="-357">hourly_injection&gt;=HourlyLimit &amp;&amp; t&lt;=60</label>
+		</location>
+		<location id="id4" x="357" y="-17">
+			<name x="347" y="-51">DailyIdeal</name>
+			<label kind="invariant" x="357" y="0">daily_injection&gt;=DailyLimit &amp;&amp; \
+hour_cnt&lt;=24 &amp;&amp; \
+t&lt;=60</label>
+		</location>
+		<location id="id5" x="323" y="-297">
+			<name x="349" y="-314">UpdateHourly</name>
+			<committed/>
+		</location>
+		<location id="id6" x="391" y="-136">
+			<name x="408" y="-144">UpdateDaily</name>
+			<committed/>
+		</location>
+		<location id="id7" x="348" y="136">
+			<committed/>
+		</location>
+		<location id="id8" x="-382" y="-153">
+			<committed/>
+		</location>
+		<location id="id9" x="-85" y="-144">
+		</location>
+		<location id="id10" x="93" y="-340">
+			<committed/>
+		</location>
+		<location id="id11" x="272" y="85">
+			<committed/>
+		</location>
+		<location id="id12" x="-195" y="42">
+			<committed/>
+		</location>
+		<location id="id13" x="-127" y="102">
+			<committed/>
+		</location>
+		<location id="id14" x="93" y="-246">
+			<committed/>
+		</location>
+		<location id="id15" x="187" y="34">
+			<committed/>
+		</location>
+		<location id="id16" x="-34" y="110">
+			<committed/>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="-17" y="8">bolus_injected=1</label>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id16"/>
+			<label kind="assignment" x="-246" y="136">daily_injection=daily_injection+bolus</label>
+		</transition>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="127" y="-8">hour_cnt=0</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id15"/>
+			<label kind="assignment" x="161" y="51">daily_injection=0</label>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="51" y="-187">hour_cnt=hour_cnt+1</label>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id14"/>
+			<label kind="assignment" x="51" y="-297">hourly_injection=0</label>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id13"/>
+			<label kind="assignment" x="-425" y="68">hourly_injection=hourly_injection+bolus</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id12"/>
+			<label kind="guard" x="-306" y="-8">hourly_injection+bolus&lt;=HourlyLimit &amp;&amp; \
+daily_injection+bolus&lt;=DailyLimit</label>
+			<label kind="synchronisation" x="-144" y="-25">ShotBolus!</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id11"/>
+			<label kind="guard" x="238" y="-8">hour_cnt==24</label>
+			<label kind="assignment" x="246" y="17">global_t=0</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id10"/>
+			<label kind="guard" x="187" y="-357">t==60</label>
+			<label kind="assignment" x="195" y="-323">t=0</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="-85" y="-127">t=0</label>
+			<nail x="-59" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id9"/>
+			<label kind="guard" x="-340" y="-187">validity==1</label>
+			<label kind="assignment" x="-314" y="-153">clear_clock()</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-459" y="-102">validity==0</label>
+			<nail x="-408" y="-59"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="-374" y="-136">Validate!</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-187" y="-76">validity==1</label>
+			<label kind="assignment" x="-195" y="-59">clear_clock()</label>
+			<nail x="-170" y="-85"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id4"/>
+			<label kind="assignment" x="187" y="102">hour_cnt=hour_cnt+1</label>
+			<nail x="280" y="136"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id7"/>
+			<label kind="guard" x="357" y="59">t==60 &amp;&amp; hour_cnt&lt;24</label>
+			<label kind="assignment" x="374" y="76">t=0</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="246" y="-68">clear_injection()</label>
+			<nail x="357" y="-85"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id6"/>
+			<label kind="guard" x="204" y="-119">hour_cnt==24</label>
+			<label kind="assignment" x="212" y="-93">hour_cnt=0</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="306" y="-212">hourly_injection=0</label>
+			<nail x="289" y="-195"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id5"/>
+			<label kind="guard" x="221" y="-221">t==60</label>
+			<label kind="assignment" x="221" y="-204">t=0</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id4"/>
+			<label kind="guard" x="127" y="-42">daily_injection&gt;=DailyLimit</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="guard" x="119" y="-263">hourly_injection&gt;=HourlyLimit</label>
+			<nail x="136" y="-119"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-297" y="-119">validity==0</label>
+			<label kind="synchronisation" x="-297" y="-85">Start?</label>
+			<nail x="-289" y="-51"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-229" y="-314">hourly_injection&lt;=HourlyLimit &amp;&amp;  \
+daily_injection&lt;=DailyLimit</label>
+			<label kind="assignment" x="-127" y="-280">injecting()</label>
+			<nail x="-76" y="-255"/>
+			<nail x="-51" y="-263"/>
+		</transition>
+	</template>
+	<template>
+		<name>patient</name>
+		<parameter>broadcast chan &amp;ShotBolus</parameter>
+		<location id="id17" x="0" y="0">
+			<name x="-34" y="17">Patient</name>
+		</location>
+		<location id="id18" x="0" y="-119">
+			<committed/>
+		</location>
+		<init ref="id17"/>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id17"/>
+			<nail x="76" y="-51"/>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id18"/>
+			<label kind="synchronisation" x="-110" y="-93">ShotBolus!</label>
+			<label kind="assignment" x="-136" y="-42">upon_request_bolus()</label>
+			<nail x="-85" y="-51"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">physician</name>
+		<parameter>broadcast chan &amp;ChangeBaseline, broadcast chan &amp;ChangeBolus, broadcast chan &amp;Start,broadcast chan &amp;Validate,broadcast chan &amp;ShutDown</parameter>
+		<declaration>// Place local declarations here.
+//int new_baseline;
+//int new_bolus;
+</declaration>
+		<location id="id19" x="0" y="0">
+			<name x="-76" y="-34">Physician</name>
+		</location>
+		<location id="id20" x="8" y="93">
+			<name x="0" y="118">ChengeBolus</name>
+			<committed/>
+		</location>
+		<location id="id21" x="17" y="-102">
+		</location>
+		<init ref="id19"/>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id19"/>
+			<label kind="assignment" x="59" y="-76">change_baseline(new_baseline)</label>
+			<nail x="76" y="-85"/>
+		</transition>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id21"/>
+			<label kind="synchronisation" x="-59" y="-85">ChangeBaseline!</label>
+			<label kind="assignment" x="-76" y="-68">new_baseline=5</label>
+		</transition>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id19"/>
+			<label kind="assignment" x="34" y="42">change_bolus(new_bolus)</label>
+			<nail x="76" y="93"/>
+		</transition>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id20"/>
+			<label kind="synchronisation" x="-85" y="34">ChangeBolus!</label>
+			<label kind="assignment" x="-85" y="51">new_bolus=30</label>
+		</transition>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id19"/>
+			<label kind="guard" x="119" y="8">global_t&gt;10000</label>
+			<label kind="synchronisation" x="102" y="-8">ShutDown!</label>
+			<nail x="59" y="0"/>
+			<nail x="110" y="25"/>
+		</transition>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id19"/>
+			<label kind="synchronisation" x="-195" y="-25">Validate?</label>
+			<label kind="assignment" x="-340" y="-8">validity=validate_user(username,password)</label>
+			<nail x="-110" y="-34"/>
+			<nail x="-110" y="34"/>
+		</transition>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id19"/>
+			<label kind="synchronisation" x="144" y="-42">Start!</label>
+			<nail x="51" y="-25"/>
+			<nail x="161" y="-17"/>
+		</transition>
+	</template>
+	<system>broadcast chan ChangeBaseline,ChangeBolus,Start,Validate,ShutDown,ShotBolus;
+// Place template instantiations here.
+InjectionSys = injectionSys(ChangeBaseline,ChangeBolus,Start,Validate,ShutDown,ShotBolus);
+Physician = physician(ChangeBaseline,ChangeBolus,Start,Validate,ShutDown);
+Patient = patient(ShotBolus);
+// List one or more processes to be composed into a system.
+system InjectionSys, Physician, Patient;</system>
+	<queries>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] hour_cnt&lt;=24</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] InjectionSys.running imply (validity==1)</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] bolus_changed==1 imply bolus==new_bolus</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] baseline_changed==1 imply baseline==new_baseline</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] (bolus_injected==1 &amp;&amp; hourly_injection+bolus&lt;=HourlyLimit &amp;&amp; daily_injection+bolus&lt;=DailyLimit) imply bolus_injected==1</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[]daily_injection&lt;=DailyLimit</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[]hourly_injection&lt;=HourlyLimit</formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>

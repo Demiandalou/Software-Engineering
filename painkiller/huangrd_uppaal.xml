@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+int empt1=1;
+int empt2=16;
+int butt1[4]={9,10,14,15};
+int butt2_1[2]={2,3};
+int butt2_2[2]={6,7};
+int butt2_3[2]={11,12};
+int butt2_4[2]={17,18};
+int butt3[2]={8,13};
+int butt4_1=4;
+int butt4_2=5;
+int butt4_3=19;
+int butt4_4=20;
+
+int update1(int empt,int k){
+int temp;
+if (empt==empt1){
+if(butt4_1+k== empt){
+temp=butt4_1;
+butt4_1=empt1;
+empt1=temp;
+return 0;
+}
+if (butt4_2+k==empt){
+temp=butt4_2;
+butt4_2=empt1;
+empt1=temp;
+return 0;
+} 
+if (butt4_3+k==empt){
+temp=butt4_3;
+butt4_3=empt1;
+empt1=temp;
+return 0;
+} 
+if (butt4_4+k==empt){
+temp=butt4_4;
+butt4_4=empt1;
+empt1=temp;
+return 0;
+} 
+}
+if (empt==empt2){
+if(butt4_1+k== empt){
+temp=butt4_1;
+butt4_1=empt2;
+empt2=temp;
+return 0;
+}
+if (butt4_2+k==empt){
+temp=butt4_2;
+butt4_2=empt2;
+empt2=temp;
+return 0;
+} 
+if (butt4_3+k==empt){
+temp=butt4_3;
+butt4_3=empt2;
+empt2=temp;
+return 0;
+} 
+if (butt4_4+k==empt){
+temp=butt4_4;
+butt4_4=empt2;
+empt2=temp;
+return 0;
+} 
+}
+return 0;
+}
+
+int check_butt4(int empt,int k){
+if (k==-1){
+if (empt!=5 and empt!=10 and empt!=15 and empt!=20){
+if (empt==butt4_1+k or empt==butt4_2+k or empt==butt4_3+k or empt==butt4_4+k){
+return 1;}
+else{
+return 0;}
+}
+else{
+return 0;}
+}
+if (k==1){
+if (empt!=6 and empt!=11 and empt!=16){
+if (empt==butt4_1+k or empt==butt4_2+k or empt==butt4_3+k or empt==butt4_4+k){
+return 1;}
+else{
+return 0;}
+
+}
+else{
+return 0;}
+}
+if (k==5 or k==-5){
+if (empt==butt4_1+k or empt==butt4_2+k or empt==butt4_3+k or empt==butt4_4+k){
+return 1;}
+else{
+return 0;}
+}
+return 0;
+}
+
+int check_butt1(int direct){
+int temp=abs(empt1-empt2);
+if (direct==1){
+if (temp!=5){
+return 0;}
+if (empt1==6 or empt1==11 or empt1==16 or empt2==6 or empt2==11 or empt2==16){
+return 0;}
+if( (empt1-butt1[1]==1 and empt2-butt1[3]==1) or (empt1-butt1[3]==1 and empt2-butt1[1]==1)){
+return 1;
+}
+else{
+return 0;
+}
+}
+
+if (direct==2){
+if (temp!=5){
+return 0;}
+if (empt1==5 or empt1==10 or empt1==15 or empt1==20 or empt2==5 or empt2==10 or empt2==15 or empt2==20){
+return 0;}
+
+if( (empt1-butt1[0]==-1 and empt2-butt1[2]==-1) or (empt1-butt1[2]==-1 and empt2-butt1[0]==-1)){
+return 1;}
+else{
+return 0;
+}
+}
+
+if (direct==3){
+if (temp!=1){
+return 0;}
+if( (empt1-butt1[0]==-5 and empt2-butt1[1]==-5) or (empt1-butt1[1]==-5 and empt2-butt1[0]==-5)){
+return 1;}
+else{
+return 0;
+}
+
+}
+
+if (direct==4){
+if (temp!=1){
+return 0;}
+if( (empt1-butt1[2]==5 and empt2-butt1[3]==5) or (empt1-butt1[3]==5 and empt2-butt1[2]==5)){
+return 1;}
+else{
+return 0;
+}
+
+}
+return 0;
+
+}
+
+int update0(int direct,int k){
+if (direct==1){
+empt1=butt1[0];
+empt2=butt1[2];
+
+}
+if (direct==2){
+empt1=butt1[1];
+empt2=butt1[3];
+}
+if (direct==3){
+empt1=butt1[2];
+empt2=butt1[3];
+}
+if (direct==4){
+empt1=butt1[0];
+empt2=butt1[1];
+}
+butt1[0]=butt1[0]+k;
+butt1[1]=butt1[1]+k;
+butt1[2]=butt1[2]+k;
+butt1[3]=butt1[3]+k;
+
+return 0;
+}
+
+int check_butt3(int d){
+if (d==1){
+if (empt1==6 or empt1==11 or empt1==16 or empt2==6 or empt2==11 or empt2==16){
+return 0;}
+
+if (abs(empt1-empt2)!=5){
+return 0;}
+
+if ((empt1-butt3[0]==1 and empt2-butt3[1]==1) or (empt1-butt3[1]==1 and empt2-butt3[0]==1) ){
+return 1;}
+return 0;
+}
+
+if (d==2){
+if (abs(empt1-empt2)!=5){
+return 0;}
+if (empt1==5 or empt1==10 or empt1==15 or empt1==20 or empt2==5 or empt2==10 or empt2==15 or empt2==20){
+return 0;}
+if ((empt1-butt3[0]==-1 and empt2-butt3[1]==-1 )or  (empt1-butt3[1]==-1 and empt1-butt3[0]==-1 )){
+return 1;}
+else{
+return 0;
+}
+}
+
+if (d==3){
+if (empt1-butt3[0]==-5 or empt2-butt3[0]==-5){
+return 1;}
+else{
+return 0;}
+}
+if (d==4){
+if (empt1-butt3[1]==5 or empt2-butt3[1]==5){
+return 1;}
+else{
+return 0;}
+}
+return 0;
+}
+
+int update3(int d,int k){
+if (d==1 or d==2){
+empt1=butt3[0];
+empt2=butt3[1];
+}
+if (d==3){
+if (butt3[0]-5==empt1){
+empt1=butt3[1];}
+if (butt3[0]-5==empt2){
+empt2=butt3[1];}
+}
+if (d==4){
+if (butt3[1]+5==empt1){
+empt1=butt3[0];}
+if (butt3[1]+5==empt2){
+empt2=butt3[0];}
+}
+butt3[0]=butt3[0]+k;
+butt3[1]=butt3[1]+k;
+return 0;
+}
+
+int check_butt2(int empt,int d,int k){
+
+if(d==1){
+if (empt==empt1){
+if (empt1==6 or empt1==11 or empt1==16){
+return 0;}
+
+if ((empt1==butt2_1[1]+k) or (empt1==butt2_2[1]+k) or (empt1==butt2_3[1]+k) or(empt1==butt2_4[1]+k)){
+return 1;}
+else{
+return 0;}
+}
+if (empt==empt2){
+if (empt2==6 or empt2==11 or empt2==16){
+return 0;}
+
+if ((empt2==butt2_1[1]+k) or (empt2==butt2_2[1]+k) or (empt2==butt2_3[1]+k) or(empt2==butt2_4[1]+k)){
+return 1;}
+else{
+return 0;}
+}
+}
+if (d==2){
+if (empt==empt1){
+if (empt1==5 or empt1==10 or empt1==15 or  empt1==20){
+return 0;}
+
+if ((empt1==butt2_1[0]+k) or (empt1==butt2_2[0]+k) or (empt1==butt2_3[0]+k) or(empt1==butt2_4[0]+k)){
+return 1;}
+else{
+return 0;}
+}
+if (empt==empt2){
+if (empt2==5 or empt2==10 or empt2==15 or empt2==20){
+return 0;}
+
+if ((empt2==butt2_1[0]+k) or (empt2==butt2_2[0]+k) or (empt2==butt2_3[0]+k) or(empt2==butt2_4[0]+k)){
+return 1;}
+else{
+return 0;}
+}
+
+}
+if (d==3 or d==4){
+if (abs(empt1-empt2)!=1){
+return 0;}
+if ((empt1==butt2_1[0]+k and empt2==butt2_1[1]+k) or (empt1==butt2_2[0]+k and empt2==butt2_2[1]+k) or (empt1==butt2_3[0]+k and empt2==butt2_3[1]+k) or (empt1==butt2_4[0]+k and empt2==butt2_4[1]+k)){
+return 1;
+}
+if( (empt2==butt2_1[0]+k and empt1==butt2_1[1]+k) or (empt2==butt2_2[0]+k and empt1==butt2_2[1]+k) or (empt2==butt2_3[0]+k and empt1==butt2_3[1]+k) or (empt2==butt2_4[0]+k and empt1==butt2_4[1]+k)){
+return 1;
+}
+return 0;
+}
+return 0;
+}
+
+int update2(int empt,int d,int k){
+if (d==1){
+if (empt==empt1){
+if (butt2_1[1]+1==empt1){
+int t=butt2_1[0];
+empt1=t;
+butt2_1[0]=butt2_1[0]+k;
+butt2_1[1]=butt2_1[1]+k;
+}
+if (butt2_2[1]+1==empt1){
+int t=butt2_2[0];
+empt1=t;
+butt2_2[0]=butt2_2[0]+k;
+butt2_2[1]=butt2_2[1]+k;
+}
+if (butt2_3[1]+1==empt1){
+int t=butt2_3[0];
+empt1=t;
+butt2_3[0]=butt2_3[0]+k;
+butt2_3[1]=butt2_3[1]+k;
+}
+if (butt2_4[1]+1==empt1){
+int t=butt2_4[0];
+empt1=t;
+butt2_4[0]=butt2_4[0]+k;
+butt2_4[1]=butt2_4[1]+k;
+}
+}
+if (empt==empt2){
+if (butt2_1[1]+1==empt2){
+int t=butt2_1[0];
+empt2=t;
+butt2_1[0]=butt2_1[0]+k;
+butt2_1[1]=butt2_1[1]+k;
+}
+if (butt2_2[1]+1==empt2){
+int t=butt2_2[0];
+empt2=t;
+butt2_2[0]=butt2_2[0]+k;
+butt2_2[1]=butt2_2[1]+k;
+}
+if (butt2_3[1]+1==empt2){
+int t=butt2_3[0];
+empt2=t;
+butt2_3[0]=butt2_3[0]+k;
+butt2_3[1]=butt2_3[1]+k;
+}
+if (butt2_4[1]+1==empt2){
+int t=butt2_4[0];
+empt2=t;
+butt2_4[0]=butt2_4[0]+k;
+butt2_4[1]=butt2_4[1]+k;
+}
+}
+}
+if (d==2){
+if (empt==empt1){
+if (butt2_1[0]-1==empt1){
+int t=butt2_1[1];
+empt1=t;
+butt2_1[0]=butt2_1[0]+k;
+butt2_1[1]=butt2_1[1]+k;
+}
+if (butt2_2[0]-1==empt1){
+int t=butt2_2[1];
+empt1=t;
+butt2_2[0]=butt2_2[0]+k;
+butt2_2[1]=butt2_2[1]+k;
+}
+if (butt2_3[0]-1==empt1){
+int t=butt2_3[1];
+empt1=t;
+butt2_3[0]=butt2_3[0]+k;
+butt2_3[1]=butt2_3[1]+k;
+}
+if (butt2_4[0]-1==empt1){
+int t=butt2_4[1];
+empt1=t;
+butt2_4[0]=butt2_4[0]+k;
+butt2_4[1]=butt2_4[1]+k;
+}
+}
+if (empt==empt2){
+if (butt2_1[0]-1==empt2){
+int t=butt2_1[1];
+empt2=t;
+butt2_1[0]=butt2_1[0]+k;
+butt2_1[1]=butt2_1[1]+k;
+}
+if (butt2_2[0]-1==empt2){
+int t=butt2_2[1];
+empt2=t;
+butt2_2[0]=butt2_2[0]+k;
+butt2_2[1]=butt2_2[1]+k;
+}
+if (butt2_3[0]-1==empt2){
+int t=butt2_3[1];
+empt2=t;
+butt2_3[0]=butt2_3[0]+k;
+butt2_3[1]=butt2_3[1]+k;
+}
+if (butt2_4[0]-1==empt2){
+int t=butt2_4[1];
+empt2=t;
+butt2_4[0]=butt2_4[0]+k;
+butt2_4[1]=butt2_4[1]+k;
+}
+}
+return 0;
+}
+if ((d==3) or (d==4)){
+if ((empt1==butt2_1[0]+k and empt2==butt2_1[1]+k) or (empt2==butt2_1[0]+k and empt1==butt2_1[1]+k)){
+empt1=butt2_1[0];
+empt2=butt2_1[1];
+butt2_1[0]=butt2_1[0]+k;
+butt2_1[1]=butt2_1[1]+k;
+return 0;}
+if ((empt1==butt2_2[0]+k and empt2==butt2_2[1]+k) or (empt2==butt2_2[0]+k and empt1==butt2_2[1]+k)){
+empt1=butt2_2[0];
+empt2=butt2_2[1];
+butt2_2[0]=butt2_2[0]+k;
+butt2_2[1]=butt2_2[1]+k;
+return 0;}
+if ((empt1==butt2_3[0]+k and empt2==butt2_3[1]+k) or (empt2==butt2_3[0]+k and empt1==butt2_3[1]+k)){
+empt1=butt2_3[0];
+empt2=butt2_3[1];
+butt2_3[0]=butt2_3[0]+k;
+butt2_3[1]=butt2_3[1]+k;
+return 0;}
+if ((empt1==butt2_4[0]+k and empt2==butt2_4[1]+k) or (empt2==butt2_4[0]+k and empt1==butt2_4[1]+k)){
+empt1=butt2_4[0];
+empt2=butt2_4[1];
+butt2_4[0]=butt2_4[0]+k;
+butt2_4[1]=butt2_4[1]+k;
+return 0;}
+}
+return 0;
+}</declaration>
+	<template>
+		<name x="5" y="5">hrd</name>
+		<declaration>// Place local declarations here.</declaration>
+		<location id="id0" x="0" y="0">
+		</location>
+		<location id="id1" x="340" y="-25">
+			<name x="330" y="-59">success</name>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-68" y="221">check_butt2(empt2,2,-1)</label>
+			<label kind="assignment" x="-42" y="204">update2(empt2,2,-1)</label>
+			<nail x="-51" y="246"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="25" y="59">check_butt2(empt2,4,5)</label>
+			<label kind="assignment" x="25" y="93">update2(empt2,4,5)</label>
+			<nail x="51" y="187"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-55" y="246">check_butt2(empt2,3,-5)</label>
+			<label kind="assignment" x="-55" y="280">update2(empt2,3,-5)</label>
+			<nail x="-51" y="348"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-178" y="178">check_butt2(empt2,1,1)</label>
+			<label kind="assignment" x="-170" y="229">update2(empt2,1,1)</label>
+			<nail x="-162" y="263"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-451" y="-59">check_butt2(empt1,4,5)</label>
+			<label kind="assignment" x="-451" y="-42">update2(empt1,4,5)</label>
+			<nail x="-408" y="-34"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-433" y="-101">check_butt2(empt1,3,-5)</label>
+			<label kind="assignment" x="-450" y="-84">update2(empt1,3,-5)</label>
+			<nail x="-416" y="-76"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-407" y="-186">check_butt2(empt1,2,-1)==1</label>
+			<label kind="assignment" x="-390" y="-169">update2(empt1,2,-1)</label>
+			<nail x="-399" y="-195"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-442" y="-153">check_butt2(empt1,1,1)==1</label>
+			<label kind="assignment" x="-416" y="-127">update2(empt1,1,1)</label>
+			<nail x="-408" y="-153"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-110" y="-161">check_butt3(1)==1</label>
+			<label kind="assignment" x="-76" y="-135">update3(1,1)</label>
+			<nail x="-59" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-92" y="-186">check_butt3(2)==1</label>
+			<label kind="assignment" x="-24" y="-178">update3(2,-1)</label>
+			<nail x="-25" y="-187"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="68" y="-93">check_butt3(4)==1</label>
+			<label kind="assignment" x="127" y="-110">update3(4,5)</label>
+			<nail x="136" y="-76"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="0" y="-144">check_butt3(3)==1</label>
+			<label kind="assignment" x="25" y="-127">update3(3,-5)</label>
+			<nail x="25" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-289" y="204">check_butt1(4)==1</label>
+			<label kind="assignment" x="-255" y="221">update0(4,5)</label>
+			<nail x="-280" y="195"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="569" y="170">check_butt4(empt2,5)==1</label>
+			<label kind="assignment" x="578" y="187">update1(empt2,5)</label>
+			<nail x="552" y="195"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="221" y="263">check_butt4(empt1,-5)==1</label>
+			<label kind="assignment" x="238" y="289">update1(empt1,-5)</label>
+			<nail x="195" y="272"/>
+			<nail x="195" y="272"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="425" y="-127">check_butt4(empt1,-1)==1</label>
+			<label kind="assignment" x="416" y="-93">update1(empt1,-1)</label>
+			<nail x="399" y="-93"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-373" y="68">check_butt1(1)==1</label>
+			<label kind="assignment" x="-365" y="85">update0(1,1)</label>
+			<nail x="-297" y="76"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="484" y="-34">check_butt4(empt1,1)==1</label>
+			<label kind="assignment" x="501" y="-8">update1(empt1,1)</label>
+			<nail x="510" y="17"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="459" y="238">check_butt4(empt2,-5)==1</label>
+			<label kind="assignment" x="493" y="263">update1(empt2,-5)</label>
+			<nail x="450" y="246"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-382" y="0">check_butt1(3)==1</label>
+			<label kind="assignment" x="-365" y="25">update0(3,-5)</label>
+			<nail x="-297" y="34"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-313" y="118">check_butt1(2)==1</label>
+			<label kind="assignment" x="-305" y="135">update0(2,-1)</label>
+			<nail x="-263" y="119"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="93" y="289">check_butt4(empt1,5)==1</label>
+			<label kind="assignment" x="127" y="306">update1(empt1,5)</label>
+			<nail x="144" y="289"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="450" y="-187">check_butt4(empt2,-1)==1</label>
+			<label kind="assignment" x="467" y="-166">update1(empt2,-1)</label>
+			<nail x="484" y="-136"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="536" y="42">check_butt4(empt2,1)==1</label>
+			<label kind="assignment" x="552" y="68">update1(empt2,1)</label>
+			<nail x="527" y="110"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="guard" x="221" y="-42">butt1[0]==6 and butt1[1]==7 and butt1[2]==11 and butt1[3]==12</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+Process = hrd();
+// List one or more processes to be composed into a system.
+system Process;
+    </system>
+	<queries>
+		<query>
+			<formula>E&lt;&gt;Process.success</formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>

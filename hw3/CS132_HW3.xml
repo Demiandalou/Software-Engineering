@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+clock global_t;</declaration>
+	<template>
+		<name x="5" y="5">customer</name>
+		<parameter>broadcast chan &amp;Order, broadcast chan &amp;CallWaiter,broadcast chan &amp;Serve</parameter>
+		<declaration>// Place local declarations here.
+clock t;</declaration>
+		<location id="id0" x="-442" y="-119">
+			<name x="-468" y="-153">arrive</name>
+			<label kind="invariant" x="-452" y="-102">t&lt;=5</label>
+		</location>
+		<location id="id1" x="-314" y="-119">
+			<name x="-357" y="-178">callServer</name>
+			<label kind="invariant" x="-340" y="-161">t&lt;=5</label>
+		</location>
+		<location id="id2" x="-170" y="-204">
+			<name x="-212" y="-255">angry</name>
+			<label kind="invariant" x="-204" y="-238">t&gt;=1&amp;&amp;t&lt;=5</label>
+		</location>
+		<location id="id3" x="93" y="-204">
+			<name x="83" y="-238">leave</name>
+		</location>
+		<location id="id4" x="-51" y="-42">
+			<name x="-61" y="-76">wait</name>
+			<label kind="invariant" x="-93" y="-25">t&lt;=15</label>
+		</location>
+		<location id="id5" x="93" y="-42">
+			<name x="83" y="-76">eaten</name>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="-152" y="-89">Order?</label>
+			<label kind="assignment" x="-152" y="-72">t=0</label>
+			<nail x="-170" y="-102"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="-296" y="-59">Order?</label>
+			<label kind="assignment" x="-296" y="-42">t=0</label>
+			<nail x="-314" y="-42"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="-17" y="-127">Serve?</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-127" y="-144">t&gt;10</label>
+			<label kind="assignment" x="-102" y="-119">t=0</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="17" y="-33">Serve?</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-76" y="-221">t&gt;=1&amp;&amp;t&lt;=5</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-272" y="-170">t&gt;1&amp;&amp;t&lt;=5</label>
+			<label kind="assignment" x="-238" y="-204">t=0</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-425" y="-136">t&lt;=5</label>
+			<label kind="synchronisation" x="-425" y="-119">CallWaiter!</label>
+			<label kind="assignment" x="-365" y="-136">t=0</label>
+		</transition>
+	</template>
+	<template>
+		<name>server</name>
+		<parameter> broadcast chan &amp;Order, broadcast chan &amp;CallWaiter</parameter>
+		<declaration>clock t;</declaration>
+		<location id="id6" x="-467" y="-51">
+			<name x="-484" y="-85">ready</name>
+		</location>
+		<location id="id7" x="-297" y="-51">
+			<name x="-307" y="-85">delay</name>
+			<label kind="invariant" x="-307" y="-34">t&lt;=1</label>
+		</location>
+		<init ref="id6"/>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id6"/>
+			<label kind="guard" x="-408" y="17">t&gt;=1</label>
+			<label kind="synchronisation" x="-425" y="0">Order!</label>
+			<nail x="-297" y="17"/>
+			<nail x="-467" y="17"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="-425" y="-68">CallWaiter?</label>
+			<label kind="assignment" x="-408" y="-51">t=0</label>
+		</transition>
+	</template>
+	<template>
+		<name>chef</name>
+		<parameter>broadcast chan &amp;Order, broadcast chan &amp;Serve</parameter>
+		<declaration>clock t;</declaration>
+		<location id="id8" x="-161" y="0">
+			<name x="-171" y="-34">ready</name>
+		</location>
+		<location id="id9" x="-42" y="0">
+			<name x="-85" y="-34">prepareFood</name>
+			<label kind="invariant" x="-34" y="8">t&lt;=10</label>
+		</location>
+		<init ref="id8"/>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id8"/>
+			<label kind="guard" x="-144" y="51">t&gt;=5&amp;&amp;t&lt;=10</label>
+			<label kind="synchronisation" x="-85" y="68">Serve!</label>
+			<label kind="assignment" x="-143" y="68">t=0</label>
+			<nail x="-42" y="68"/>
+			<nail x="-161" y="68"/>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="-143" y="-17">Order?</label>
+			<label kind="assignment" x="-143" y="0">t=0</label>
+		</transition>
+	</template>
+	<system>broadcast chan Order, CallWaiter,Serve;
+// Place template instantiations here.
+//Process = customer();
+
+/////////////////////////////////////
+// my restaurant model
+////////////////////////////////////
+Customer=customer(Order, CallWaiter,Serve);
+Server=server(Order,CallWaiter);
+Chef=chef(Order,Serve);
+
+// List one or more processes to be composed into a system.
+system Customer,Server,Chef;
+    </system>
+	<queries>
+		<query>
+			<formula>A[] (not Customer.angry)</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; (Customer.eaten)</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] (not Customer.leave)</formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>
